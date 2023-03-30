@@ -1,34 +1,53 @@
 plugins {
-    // id for library
-    // id for maven to publish jar to local repository
+    // идентификатор библиотеки
+    // идентификатор maven для публикации jar в локальном репозитории
+    id 'java'//
+    id 'application'//
 }
+
+apply plugin: 'maven-publish'
 
 java {
-// provide sourceCompatibility
+    // обеспечить исходную совместимость
+    toolchain {//
+        languageVersion = JavaLanguageVersion.of(16)//
+    }
 }
+version = '1.2.1'//
 
 repositories {
-// provide repository, where required dependencies are located
+// предоставляем репозиторий, где находятся необходимые зависимости
+    mavenCentral()//
 }
 
 publishing {
     publications {
         maven(MavenPublication) {
-// provide groupId
-// provide artifactId
-// provide version
+// предоставить идентификатор группы
+// предоставить идентификатор артефакта
+// предоставить версию
+            groupId = "ir.mahozad.android"//
+            artifactId = "pie-chart"//
+            version = project.version.toString()//
 
             from components.java
         }
     }
 }
 
-//add Apache Apache Commons Lang 3.10 (or higher) dependency
+ext {
+    commonsVersion= 3.12
+}
+//добавляем зависимость Apache Apache Commons Lang 3.10 (или выше)
 
 jar {
     manifest {
-        //provide manifest with such attributes as 'Implementation-Title', 'Implementation-Version'
+        //обеспечиваем манифест такими атрибутами, как 'Implementation-Title', 'Implementation-Version'
+        attributes 'Main-Class': 'com.epam.stage2.StringUtils'//
+        archiveBaseName = 'gs-gradle'
+        archiveVersion =  '0.1.0'
     }
+    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }//
 }
 
 test {
