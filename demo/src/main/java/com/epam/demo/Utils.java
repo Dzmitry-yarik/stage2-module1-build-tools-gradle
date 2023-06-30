@@ -3,12 +3,15 @@ package com.epam.demo;
 import java.util.List;
 
 public class Utils {
-     public static boolean isAllPositiveNumbers(List<String> args) {
+    public static boolean isAllPositiveNumbers(List<String> args) {
         for (String s: args) {
+            if ( s == null)
+                return false;
             if (!isPositiveNumber(s))
                 return false;
         }
         return true;
+
     }
 
     public static boolean isPositiveNumber(String str) {
